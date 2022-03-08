@@ -1,0 +1,15 @@
+name: 'Pylint'
+description: 'Run Pylint on all folder.'
+inputs:
+  basePath:
+    description: 'Base path for Pylint'
+    required: false
+    default: "."
+  configurationFile:
+    description: 'Base Path for ConfigurationFile'
+    required: false
+    default: ".pylintrc"
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

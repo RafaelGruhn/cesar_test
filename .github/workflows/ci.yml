@@ -1,0 +1,27 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Custom action
+      - name: Bandit
+        uses: ./.github/actions/bandit
+        with:
+          basePath: ./flaskr
+
+      # Custom action
+      - name: Pylinter
+        uses: ./.github/actions/pylint
+        with:
+          basePath: ./flask/
+          configurationFile: ./flaskr/.pylintrc
