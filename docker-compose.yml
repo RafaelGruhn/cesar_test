@@ -17,6 +17,7 @@ services:
       HOST: 0.0.0.0
     env_file:
       - ./envs/redis.env
+      - ./envs/flask.env
     ports:
       - 8000:8000
     depends_on:
