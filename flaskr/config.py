@@ -32,12 +32,12 @@ def get_logger():
     return logging.getLogger(DEFAULT_LOGGER_NAME)
 
 
-class BaseConfig(object):
+class BaseConfig(object):  # pylint disable=useless-object-inheritance
     SECRET_KEY = os.environ['SECRET_KEY']
     # Cache ----------------------------------------------------------
     CACHE_REDIS_HOST = os.environ['REDIS_HOST']
     CACHE_REDIS_PORT = os.environ['REDIS_PORT']
-    CACHE_REDIS_URL = f'redis://redis:{CACHE_REDIS_PORT}/0' 
+    CACHE_REDIS_URL = f'redis://redis:{CACHE_REDIS_PORT}/0'
     CACHE_REDIS_DEFAULT_USER = os.environ['REDIS_DEFAULT_USER']
     CACHE_DEFAULT_TIMEOUT = 60 * 60 * 24  # default is 24 hours
     CACHE_TYPE = os.environ['CACHE_TYPE']

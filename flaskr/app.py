@@ -1,9 +1,10 @@
 '''Init root project'''
-from email import message
+# pylint: disable=import-error
+from crypt import methods
 import os
 import json
 
-from flask import Flask, request
+from flask import Flask, request, render_template
 from flask_caching import Cache
 
 from config import BaseConfig, get_logger
@@ -29,7 +30,12 @@ def create_app():
 
     # cache = Cache(app)  # Initialize Cache
 
-    @app.route('/decrypt_morse', methods=['POST', 'GET'])
+    @app.route('/', methods=['GET'])
+    def home():
+        return render_template('index.html')
+
+
+    @app.route('/decrypt_morse', methods=['POST'])
     # @cache.cached(timeout=app.config['CACHE_DEFAULT_TIMEOUT'], query_string=False)
     def decrypt():
         try:
@@ -41,7 +47,6 @@ def create_app():
 
             # Convert morse message to currently text
             decrypted_message, message_arg, status_code = decrypt_message(message)
-            
 
         except json.JSONDecodeError as error:
             LOGGER.error(f'Decode message error. Error: {error}')

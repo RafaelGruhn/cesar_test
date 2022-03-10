@@ -10,7 +10,7 @@ unsafe-load-any-extension=no
 
 [MESSAGES CONTROL]
 confidence=
-disable=no-member,locally-disabled,too-few-public-methods,too-many-ancestors,keyword-arg-before-vararg,attribute-defined-outside-init,duplicate-except
+disable=no-member,locally-disabled,too-few-public-methods,too-many-ancestors,keyword-arg-before-vararg,attribute-defined-outside-init,duplicate-except,logging-fstring-interpolation
 enable=
 
 [REPORTS]
