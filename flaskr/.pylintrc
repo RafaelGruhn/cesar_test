@@ -4,7 +4,6 @@ ignore=CVS
 ignore-patterns=backups/*.py
 #init-hook=
 jobs=4
-load-plugins=pylint_django
 persistent=yes
 #rcfile=
 unsafe-load-any-extension=no
