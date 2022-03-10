@@ -23,5 +23,5 @@ jobs:
       - name: Pylinter
         uses: ./.github/actions/pylint
         with:
-          basePath: ./flask/
+          basePath: ./flaskr
           configurationFile: ./flaskr/.pylintrc
