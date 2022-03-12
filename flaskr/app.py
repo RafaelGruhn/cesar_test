@@ -6,6 +6,7 @@ import json
 
 from flask import Flask, request, render_template
 from flask_caching import Cache
+from flask_socketio import SocketIO
 
 from config import BaseConfig, get_logger
 from cesar_test.decrypt import decrypt_message
@@ -21,6 +22,7 @@ def create_app():
     '''
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(BaseConfig)
+    socketio = SocketIO(app)
 
     # ensure the instance folder exists
     try:
@@ -56,4 +58,5 @@ def create_app():
         except Exception as error:
             return 
 
+    socketio.run(app)
     return app

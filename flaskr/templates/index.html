@@ -32,19 +32,30 @@
 
     {% block content %}
     <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="jumbotron">
+      <div class="jumbotron">
+        <div class="row">
+          <div class="col-md-12">
             <div class="form-group">
               <label for="morse"><h3>Insert Morse Code</h3></label>
               <textarea class="form-control" id="morse" name="morse" rows="6">
               </textarea>
             </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
             <p class="float-right mb-4">
-              <a class="btn btn-primary btn-lg" id="decode">Decode</a>
+              <a class="btn btn-primary btn-lg text-white" id="decode">Decode</a>
             </p>
-            <textarea class="form-control" id="morse" name="morse" rows="6">
-            </textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="message"><h3>Decoded Morse Code</h3></label>
+              <textarea class="form-control" id="message" name="message" rows="6">
+              </textarea>
+            </div>
           </div>
         </div>
       </div>
@@ -60,8 +71,22 @@
 
     <script>
       $(document).ready(function () {
-        let button = $('#decode');
-        $(button).on('click', '.vteam', function(event) {}
+        toastr.options.preventDuplicates = true;
+        const morseText = $('#morse');
+        morseText.on('keypress', function (event) {
+          var regex = new RegExp("^[-. ]+$");
+          var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+          if (!regex.test(key)) {
+            event.preventDefault();
+            toastr.warning('Only the characters ".", "-" and " " are allowed in morse code!');
+            return false;
+          }
+        });
+
+        // let button = $('#decode');
+        // $(button).on('click', '.vteam', function(event) {}put1.value.match(/[^a-zA-Z' 'wığüşöçĞÜŞÖÇİ]/g)){
+        //     harfInput1.value = this.value.replace(/[^a-zA-ZwığüşöçĞÜŞÖÇİ]/g,'');
+        // }
       });
     </script>
 
