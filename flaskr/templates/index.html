@@ -7,45 +7,63 @@
 
     <title>Morse Code Translator</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+    {% block css_local %}
     <link rel="stylesheet" href="{{ url_for('static', filename='vendor/toastr/css/toastr.min.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+    {% endblock css_local %}
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-      <div class="container">
-        <a class="navbar-brand" href="#">Morse</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="true" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item" >
-              <b class="nav-link">Olá sds!</b>
-            </li>
-          </ul>
-        </div>
+
+    {% block nav %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
+      <a class="navbar-brand" href="#">Morse Code</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-md-auto mr-5">
+          <li class="nav-item">
+            <a class="nav-link" href="#">API Documentation</a>
+          </li>
+        </ul>
       </div>
     </nav>
-    <div class="container-fluid">
+    {% endblock nav %}
+
+    {% block content %}
+    <div class="container">
       <div class="row">
         <div class="col-md-12">
           <div class="jumbotron">
-            <h2>
-              Hello, world!
-            </h2>
-            <p>
-              dfdgfdg fdg dfgfjgdf nfjdg fg dfugdf ugi dfuiugn fdungudfn gudfnuig ndfungdfungudfngudfng unfugnudfng uidnfigdfujgn dufgnudfngud ngudnfgnun
+            <div class="form-group">
+              <label for="morse"><h3>Insert Morse Code</h3></label>
+              <textarea class="form-control" id="morse" name="morse" rows="6">
+              </textarea>
+            </div>
+            <p class="float-right mb-4">
+              <a class="btn btn-primary btn-lg" id="decode">Decode</a>
             </p>
-            <p>
-              <a class="btn btn-primary btn-large" href="#">Learn more</a>
-            </p>
+            <textarea class="form-control" id="morse" name="morse" rows="6">
+            </textarea>
           </div>
         </div>
       </div>
     </div>
+    {% endblock content %}
+
+    {% block js_local %}
     <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/popper.min.js') }}"></script>
     <script src="{{ url_for('static', filename='vendor/toastr/js/toastr.min.js') }}"></script>
+    {% endblock js_local %}
+
+    <script>
+      $(document).ready(function () {
+        let button = $('#decode');
+        $(button).on('click', '.vteam', function(event) {}
+      });
+    </script>
+
   </body>
 </html>
