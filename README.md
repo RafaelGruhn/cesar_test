@@ -2,7 +2,7 @@
 
 Este projeto tem como objetivo a criação de um site que permite ao usuário traduzir um código morse baseado na tabela de tradução abaixo:
 
-![Tabela](https://raw.githubusercontent.com/RafaelGruhn/morse_code/master/flaskr/static/table_morse_translator.png)
+![Tabela](https://github.com/RafaelGruhn/morse_code/blob/master/flaskr/static/table_morse_translator.png?raw=true)
 
 ## Modo de uso [ambiente de desenvolvimento]
 
