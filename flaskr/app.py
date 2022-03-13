@@ -59,7 +59,7 @@ def create_app():
         except MessageError as error:
             LOGGER.error(f'{error}')
             return error, 400
-        except Exception as error:  # pylint: disable: broad-except
+        except Exception as error:  # pylint: disable=broad-except
             LOGGER.error(f'Internal Error: {error}')
             return 'Internal Server Error! Please contact the administrator.', 500
 
@@ -80,7 +80,7 @@ def create_app():
             LOGGER.error(f'Decode message error. Error: {error}')
         except MessageError as error:
             LOGGER.error(f'{error}')
-        except Exception as error:  # pylint: disable: broad-except
+        except Exception as error:  # pylint: disable=broad-except
             LOGGER.error(f'Unexpected Error: {error}')
 
     @cache.memoize(timeout=app.config['CACHE_DEFAULT_TIMEOUT'])
