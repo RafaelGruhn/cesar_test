@@ -45,7 +45,7 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="morse"><h3>Insert Morse Code</h3></label>
-                  <textarea class="form-control" id="morse" name="morse" rows="6">
+                  <textarea class="form-control" id="morse" name="morse" placeholder="--- .-.. .-" rows="6">
                   </textarea>
                 </div>
               </div>
@@ -61,7 +61,7 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="message"><h3>Decoded Morse Code</h3></label>
-                  <textarea class="form-control" id="message" name="message" rows="6">
+                  <textarea class="form-control" id="message" name="message" rows="6" placeholder="OLA">
                   </textarea>
                 </div>
               </div>
@@ -90,6 +90,7 @@
       $(document).ready(function () {
         // toastr configuration
         toastr.options.preventDuplicates = true;
+        toastr.options.fadeOut = 2500;
 
         const morseText = $('#morse');
         const messageText = $('#message');
@@ -122,8 +123,10 @@
             });
 
             socket.on("decrypted_morse", (data) => {
-              if (data.code != 200) {
-                toastr.error(code.message_arg);
+              let code = data.code;
+              if (code != 200) {
+                toastr.clear();
+                toastr.error('Status Code ' + code + '. ' + data.message_arg);
               } else {
                 messageText.val(data.message);
               }
@@ -131,6 +134,7 @@
           });
         } catch(e) {
           console.log(e);
+          toastr.clear();
           toastr.error('Error 500. Internal Server Error. Try reload this page to connect again!');
         }
 

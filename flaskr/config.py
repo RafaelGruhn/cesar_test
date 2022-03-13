@@ -15,7 +15,7 @@ _h_console.setLevel(logging.WARNING)
 _h_console.setFormatter(_formatter)
 
 if os.getenv('FLASK_ENV', 'development') == 'production':
-    _h_file = logging.FileHandler(filename='/data/mose.log')
+    _h_file = logging.FileHandler(filename='/var/log/morse_code/morse_code.log')
     _h_file.setLevel(logging.DEBUG)
     _h_file.setFormatter(_formatter)
     _LOGGER.addHandler(_h_file)
@@ -32,7 +32,7 @@ def get_logger():
     return logging.getLogger(DEFAULT_LOGGER_NAME)
 
 
-class BaseConfig(object):  # pylint disable=useless-object-inheritance
+class BaseConfig:
     SECRET_KEY = os.environ['SECRET_KEY']
     FLASK_ENV = os.environ.get('FLASK_ENV', 'development')
     # Cache ----------------------------------------------------------

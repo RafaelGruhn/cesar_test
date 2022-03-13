@@ -1,28 +1,22 @@
 version: '3.7'
 
 services:
-  redis:
-    image: "redis:6.2.6-alpine"
-    container_name: morse_redis
-    env_file:
-      - ./envs/redis.env
   flask:
     build:
       context: ./flaskr
       args:
-        MODE: development
+        MODE: production
     container_name: morse_flask
     volumes:
       - ./flaskr:/code/
     environment:
-      MODE: development
+      MODE: production
       PORT: 8000
       HOST: 0.0.0.0
-      NUM_GUNICORN_WORKERS: 4
       LOGS_ROOT: /var/log/morse_code
     env_file:
       - ./envs/redis.env
-      - ./envs/flask_dev.env
+      - ./envs/flask_prd.env
     ports:
       - 8000:8000
     depends_on:

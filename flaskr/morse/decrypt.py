@@ -31,7 +31,7 @@ def decrypt_message(message: str):
                 decrypted_message = decrypted_message + LEGEND[word]
     except KeyError:
         LOGGER.warning(f'Error while decrypting message. Invalid morse string: {word}')
-        return decrypted_message, f'Error in part of Morse text. {word} as not recognized as valid Morse code!', 400
+        return decrypted_message, f'Error in part of Morse text. "{word}" as not recognized as valid Morse code!', 400
     except Exception as error:  # pylint: disable=broad-except
         LOGGER.exception(f'Error while decrypting message. Error: {error}')
         return decrypted_message, 'Internal Server Error', 500

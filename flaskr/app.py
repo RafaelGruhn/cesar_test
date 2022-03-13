@@ -1,6 +1,5 @@
 '''Init root project'''
 # pylint: disable=import-error
-from crypt import methods
 import os
 import json
 
@@ -60,7 +59,7 @@ def create_app():
         except MessageError as error:
             LOGGER.error(f'{error}')
             return error, 400
-        except Exception as error:
+        except Exception as error:  # pylint: disable: broad-except
             LOGGER.error(f'Internal Error: {error}')
             return 'Internal Server Error! Please contact the administrator.', 500
 
@@ -80,9 +79,9 @@ def create_app():
         except json.JSONDecodeError as error:
             LOGGER.error(f'Decode message error. Error: {error}')
         except MessageError as error:
-            LOGGER.error(f'Decode message error. Error: {error}')
-        except Exception as error:
-            LOGGER.error(f'Decode message error. Error: {error}')
+            LOGGER.error(f'{error}')
+        except Exception as error:  # pylint: disable: broad-except
+            LOGGER.error(f'Unexpected Error: {error}')
 
     @cache.memoize(timeout=app.config['CACHE_DEFAULT_TIMEOUT'])
     def call_decrypt_message(message: str):
@@ -90,5 +89,6 @@ def create_app():
         LOGGER.info('Calling function to decrypt message from socket or http')
         return decrypt_message(message)
 
-    socketio.run(app)
+    if app.config['FLASK_ENV'] != 'development':
+        socketio.run(app)
     return app

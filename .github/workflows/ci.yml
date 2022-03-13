@@ -25,3 +25,10 @@ jobs:
         with:
           basePath: ./flaskr
           configurationFile: ./flaskr/.pylintrc
+
+      - name: Setup Docker Compose
+        uses: KengoTODA/actions-setup-docker-compose@main
+
+      - name: Test Build
+        shell: bash
+        run: docker-compose build
