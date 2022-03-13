@@ -40,9 +40,10 @@ def create_app():
         return render_template('index.html')
 
     @app.route('/decrypt_morse', methods=['POST'])
-    @cache.cached(timeout=app.config['CACHE_DEFAULT_TIMEOUT'], query_string=False)
+    # @cache.cached(timeout=app.config['CACHE_DEFAULT_TIMEOUT'], query_string=False)
     def decrypt_from_http():
         try:
+            print(request.data)
             json_data = json.loads(request.data)
             message = json_data.get('message')
             if not message:
@@ -50,15 +51,18 @@ def create_app():
             LOGGER.debug(f'Receive message to decrypt from POST. Message: {message}')
 
             # Convert morse message to currently text
-            decrypted_message, message_arg, status_code = call_decrypt_message(message)
+            decrypted_message, _, status_code = call_decrypt_message(message)
+            return decrypted_message, status_code
 
         except json.JSONDecodeError as error:
             LOGGER.error(f'Decode message error. Error: {error}')
             return 'Error: request data not in json format!', 400
         except MessageError as error:
+            LOGGER.error(f'{error}')
             return error, 400
         except Exception as error:
-            return 
+            LOGGER.error(f'Internal Error: {error}')
+            return 'Internal Server Error! Please contact the administrator.', 500
 
     @socketio.on('decrypt_morse')
     def decrypt_from_socket(data):
