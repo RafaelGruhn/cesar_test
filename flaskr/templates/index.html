@@ -31,32 +31,44 @@
     {% endblock nav %}
 
     {% block content %}
-    <div class="container">
-      <div class="jumbotron">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="form-group">
-              <label for="morse"><h3>Insert Morse Code</h3></label>
-              <textarea class="form-control" id="morse" name="morse" rows="6">
-              </textarea>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-3 text-center mt-5">
+          <h3>
+            Morse Code Translation Table
+          </h3>
+          <img alt="Table Morse Translator" src="{{ url_for('static', filename='table_morse_translator.png') }}" />
+        </div>
+        <div class="col-md-7">
+          <div class="jumbotron">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="morse"><h3>Insert Morse Code</h3></label>
+                  <textarea class="form-control" id="morse" name="morse" rows="6">
+                  </textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <p class="float-right mb-4">
+                  <button class="btn btn-primary btn-lg text-white" id="clear">Clear All</button>
+                </p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="message"><h3>Decoded Morse Code</h3></label>
+                  <textarea class="form-control" id="message" name="message" rows="6">
+                  </textarea>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-12">
-            <p class="float-right mb-4">
-              <a class="btn btn-primary btn-lg text-white" id="decode">Decode</a>
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="form-group">
-              <label for="message"><h3>Decoded Morse Code</h3></label>
-              <textarea class="form-control" id="message" name="message" rows="6">
-              </textarea>
-            </div>
-          </div>
+        <div class="col-md-2">
         </div>
       </div>
     </div>
@@ -69,26 +81,67 @@
     <script src="{{ url_for('static', filename='vendor/toastr/js/toastr.min.js') }}"></script>
     {% endblock js_local %}
 
+    {% block js_external %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    {% endblock js_external %}
+
+    {% block script %}
     <script>
       $(document).ready(function () {
+        // toastr configuration
         toastr.options.preventDuplicates = true;
+
         const morseText = $('#morse');
-        morseText.on('keypress', function (event) {
-          var regex = new RegExp("^[-. ]+$");
-          var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
-          if (!regex.test(key)) {
-            event.preventDefault();
-            toastr.warning('Only the characters ".", "-" and " " are allowed in morse code!');
-            return false;
-          }
+        const messageText = $('#message');
+
+        // start socket plugin
+        const socket = io();
+
+        // remove initial whitespace
+        morseText.val('');
+        messageText.val('');
+
+        try {
+          socket.on('connect', function() {
+            // overflow defaut keypress event
+            morseText.on('keypress', function (event) {
+              var regex = new RegExp("^[-. ]+$");
+              var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+              if (!regex.test(key)) {
+                event.preventDefault();
+                toastr.warning('Only the characters ".", "-" and " " are allowed in morse code!');
+                return false;
+              } else {
+                socket.emit('decrypt_morse', {message: morseText.val() + key});
+              }
+            });
+
+            // overflow defaut keyup event
+            morseText.on('keyup', function (event) {
+              socket.emit('decrypt_morse', {message: morseText.val()});
+            });
+
+            socket.on("decrypted_morse", (data) => {
+              if (data.code != 200) {
+                toastr.error(code.message_arg);
+              } else {
+                messageText.val(data.message);
+              }
+            });
+          });
+        } catch(e) {
+          console.log(e);
+          toastr.error('Error 500. Internal Server Error. Try reload this page to connect again!');
+        }
+
+        $("#clear").on('click', function (event) {
+          morseText.val('');
+          messageText.val('');
         });
 
-        // let button = $('#decode');
-        // $(button).on('click', '.vteam', function(event) {}put1.value.match(/[^a-zA-Z' 'wığüşöçĞÜŞÖÇİ]/g)){
-        //     harfInput1.value = this.value.replace(/[^a-zA-ZwığüşöçĞÜŞÖÇİ]/g,'');
-        // }
       });
     </script>
+    {% endblock script %}
 
   </body>
 </html>

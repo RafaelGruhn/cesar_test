@@ -3,12 +3,12 @@ version: '3.7'
 services:
   redis:
     image: "redis:6.2.6-alpine"
-    container_name: cesar_test_redis
+    container_name: mose_redis
     env_file:
       - ./envs/redis.env
   flask:
     build: ./flaskr
-    container_name: cesar_test_flask
+    container_name: mose_flask
     volumes:
       - ./flaskr:/code/
     environment:

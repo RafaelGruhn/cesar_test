@@ -15,7 +15,7 @@ _h_console.setLevel(logging.WARNING)
 _h_console.setFormatter(_formatter)
 
 if os.getenv('FLASK_ENV', 'development') == 'production':
-    _h_file = logging.FileHandler(filename='/data/cesar_test.log')
+    _h_file = logging.FileHandler(filename='/data/mose.log')
     _h_file.setLevel(logging.DEBUG)
     _h_file.setFormatter(_formatter)
     _LOGGER.addHandler(_h_file)
@@ -34,6 +34,7 @@ def get_logger():
 
 class BaseConfig(object):  # pylint disable=useless-object-inheritance
     SECRET_KEY = os.environ['SECRET_KEY']
+    FLASK_ENV = os.environ.get('FLASK_ENV', 'development')
     # Cache ----------------------------------------------------------
     CACHE_REDIS_HOST = os.environ['REDIS_HOST']
     CACHE_REDIS_PORT = os.environ['REDIS_PORT']
