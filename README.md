@@ -8,8 +8,8 @@ O objetivo deste projeto é criar uma ferramenta simples e escalonável que perm
 
 Como a solução em sí é muito simples foi utilizado o Framework Flask para o desenvolvimento do Backend, por ser muito rápido e minimalista, além de que é extremamente recomendado para projetos desse tipo.
 Para aliviar o processamento da mensagem foi utilizado o Redis como sistema de armazenamento de cache, removendo então a necessidade do servidor fazer a decodificação no caso desse processamento já ter sido feito recentemente.
-Não achei necessário separar o a aplicação em Frontend e Backend por ela ser muito simples e ter poucas telas, então utilizei o Boostrap e outros plugins para facilitar a interação com o usuário
-Utilizei WebSocket para criar uma conexão direta entre o frontend e backend, permitindo assim uma comunicação assíncrona e reativa o que melhora a experiência do usuário
+Não achei necessário separar a aplicação em Frontend e Backend por ela ser muito simples e ter poucas telas, então utilizei o Boostrap e outros plugins para facilitar a interação com o usuário.
+Utilizei WebSocket para criar uma conexão direta entre o frontend e backend, permitindo assim uma comunicação assíncrona e reativa o que melhora a experiência do usuário.
 
 ## Modo de uso [ambiente de desenvolvimento]
 
